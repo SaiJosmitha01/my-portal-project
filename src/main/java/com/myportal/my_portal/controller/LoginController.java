@@ -46,8 +46,8 @@ public class LoginController {
         // Login OK → store user in session
         session.setAttribute("loggedUser", user);
 
-        // Redirect to profile page
-        return "redirect:/profile";
+        // Redirect to dashboard
+        return "redirect:/dashboard";
     }
 
     // Logout
