@@ -1,44 +1,48 @@
 <%@ include file="header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="container mt-5">
+<h2>Login</h2>
 
-    <div class="row justify-content-center">
-        <div class="col-md-5">
+<!-- JavaScript validation -->
+<script>
+    function validateLogin() {
 
-            <div class="card shadow-sm">
-                <div class="card-body">
+        let email = document.forms["loginForm"]["email"].value;
+        let password = document.forms["loginForm"]["password"].value;
 
-                    <h3 class="text-center mb-4">Login</h3>
+        // Email empty
+        if (email.trim() === "") {
+            alert("Email cannot be empty");
+            return false;
+        }
 
-                    <!-- Error Message -->
-                    <c:if test="${not empty error}">
-                        <div class="alert alert-danger">${error}</div>
-                    </c:if>
+        // Email format validation
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            alert("Enter a valid email address");
+            return false;
+        }
 
-                    <!-- Login Form -->
-                    <form action="/login" method="post">
+        // Password empty
+        if (password.trim() === "") {
+            alert("Password cannot be empty");
+            return false;
+        }
 
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control" required />
-                        </div>
+        return true; // allow login submit
+    }
+</script>
 
-                        <div class="mb-3">
-                            <label class="form-label">Password</label>
-                            <input type="password" name="password" class="form-control" required />
-                        </div>
+<form name="loginForm" action="/login" method="post" onsubmit="return validateLogin();">
 
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Login</button>
-                        </div>
+    Email: <input type="email" name="email" /><br/><br/>
 
-                    </form>
+    Password: <input type="password" name="password" /><br/><br/>
 
-                </div>
-            </div>
+    <button type="submit">Login</button>
+</form>
 
-        </div>
-    </div>
-
-</div>
+<!-- Backend errors -->
+<c:if test="${not empty error}">
+    <p style="color:red;">${error}</p>
+</c:if>

@@ -1,53 +1,64 @@
 <%@ include file="header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="container mt-4">
+<h2>Register</h2>
 
-    <div class="row justify-content-center">
-        <div class="col-md-6">
+<!-- JavaScript validation -->
+<script>
+    function validateForm() {
 
-            <div class="card shadow-sm">
-                <div class="card-body">
+        let username = document.forms["regForm"]["username"].value;
+        let email = document.forms["regForm"]["email"].value;
+        let password = document.forms["regForm"]["password"].value;
+        let confirmPassword = document.forms["regForm"]["confirmPassword"].value;
 
-                    <h3 class="text-center mb-4">Create an Account</h3>
+        // Username validation
+        if (username.trim() === "") {
+            alert("Username cannot be empty");
+            return false;
+        }
 
-                    <!-- Error / Success Messages -->
-                    <c:if test="${not empty error}">
-                        <div class="alert alert-danger">${error}</div>
-                    </c:if>
+        // Email validation (simple regex)
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            alert("Enter a valid email address");
+            return false;
+        }
 
-                    <c:if test="${not empty success}">
-                        <div class="alert alert-success">${success}</div>
-                    </c:if>
+        // Password length check
+        if (password.length < 6) {
+            alert("Password must be at least 6 characters");
+            return false;
+        }
 
-                    <!-- Registration Form -->
-                    <form action="/register" method="post">
+        // Confirm Password match
+        if (password !== confirmPassword) {
+            alert("Passwords do not match");
+            return false;
+        }
 
-                        <div class="mb-3">
-                            <label class="form-label">Username</label>
-                            <input type="text" name="username" class="form-control" required />
-                        </div>
+        return true; // allow form submit
+    }
+</script>
 
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control" required />
-                        </div>
+<form name="regForm" action="/register" method="post" onsubmit="return validateForm();">
 
-                        <div class="mb-3">
-                            <label class="form-label">Password</label>
-                            <input type="password" name="password" class="form-control" required />
-                        </div>
+    Username: <input type="text" name="username" /><br/><br/>
 
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Register</button>
-                        </div>
+    Email: <input type="email" name="email" /><br/><br/>
 
-                    </form>
+    Password: <input type="password" name="password" /><br/><br/>
 
-                </div>
-            </div>
+    Confirm Password: <input type="password" name="confirmPassword" /><br/><br/>
 
-        </div>
-    </div>
+    <button type="submit">Register</button>
+</form>
 
-</div>
+<!-- Show backend validation -->
+<c:if test="${not empty error}">
+    <p style="color:red;">${error}</p>
+</c:if>
+
+<c:if test="${not empty success}">
+    <p style="color:green;">${success}</p>
+</c:if>
