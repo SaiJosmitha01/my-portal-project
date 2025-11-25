@@ -41,6 +41,13 @@
 
     <button type="submit">Login</button>
 </form>
+<p class="mt-3">
+    <a href="/forgot-password">Forgot Password?</a>
+</p>
+<c:if test="${param.resetSuccess == 'true'}">
+    <p class="text-success">Password reset successfully! Please login.</p>
+</c:if>
+
 
 <!-- Backend errors -->
 <c:if test="${not empty error}">
