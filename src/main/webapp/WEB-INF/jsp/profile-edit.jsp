@@ -1,25 +1,44 @@
 <%@ include file="header.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="container mt-4">
-    <h2>Edit Profile</h2>
+<!-- Bootstrap Page Wrapper -->
+<div class="container mt-4" style="max-width: 600px;">
 
-    <form action="/profile/update" method="post">
+    <h2 class="mb-4 text-center">Edit Profile</h2>
 
-        <label>Username:</label>
-        <input type="text" name="username" class="form-control"
-               value="${user.username}" required /><br>
-
-        <label>Email:</label>
-        <input type="email" name="email" class="form-control"
-               value="${user.email}" required /><br>
-
-        <label>New Password (optional):</label>
-        <input type="password" name="password" class="form-control" /><br>
-
-        <button type="submit" class="btn btn-success">Save Changes</button>
-    </form>
-
+    <!-- Success Message -->
     <c:if test="${not empty success}">
-        <p class="text-success mt-3">${success}</p>
+        <div class="alert alert-success">${success}</div>
     </c:if>
+
+    <form action="/profile/edit" method="post">
+
+        <!-- Username -->
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" name="username" class="form-control"
+                   value="${user.username}" required>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control"
+                   value="${user.email}" required>
+        </div>
+
+        <!-- Password (optional) -->
+        <div class="mb-3">
+            <label class="form-label">New Password (optional)</label>
+            <input type="password" name="password" class="form-control"
+                   placeholder="Enter new password only if you want to change">
+        </div>
+
+        <!-- Submit -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary w-50">
+                Update Profile
+            </button>
+        </div>
+    </form>
 </div>
