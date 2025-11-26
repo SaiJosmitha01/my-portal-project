@@ -1,64 +1,69 @@
 <%@ include file="header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<h2>Register</h2>
+<!-- Bootstrap centered container -->
+<div class="container mt-5" style="max-width: 480px;">
 
-<!-- JavaScript validation -->
-<script>
-    function validateForm() {
+    <!-- Card -->
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white text-center">
+            <h4>Create Your Account</h4>
+        </div>
 
-        let username = document.forms["regForm"]["username"].value;
-        let email = document.forms["regForm"]["email"].value;
-        let password = document.forms["regForm"]["password"].value;
-        let confirmPassword = document.forms["regForm"]["confirmPassword"].value;
+        <div class="card-body">
 
-        // Username validation
-        if (username.trim() === "") {
-            alert("Username cannot be empty");
-            return false;
-        }
+            <!-- Global error (like email exists) -->
+            <c:if test="${not empty error}">
+                <div class="alert alert-danger">${error}</div>
+            </c:if>
 
-        // Email validation (simple regex)
-        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(email)) {
-            alert("Enter a valid email address");
-            return false;
-        }
+            <!-- DTO validation errors -->
+            <c:if test="${not empty errors}">
+                <div class="alert alert-danger">
+                    <ul>
+                        <c:forEach items="${errors}" var="err">
+                            <li>${err.defaultMessage}</li>
+                        </c:forEach>
+                    </ul>
+                </div>
+            </c:if>
 
-        // Password length check
-        if (password.length < 6) {
-            alert("Password must be at least 6 characters");
-            return false;
-        }
+            <!-- Success message -->
+            <c:if test="${not empty success}">
+                <div class="alert alert-success">${success}</div>
+            </c:if>
 
-        // Confirm Password match
-        if (password !== confirmPassword) {
-            alert("Passwords do not match");
-            return false;
-        }
+            <!-- Registration Form -->
+            <form action="/register" method="post">
 
-        return true; // allow form submit
-    }
-</script>
+                <!-- Username -->
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control" required />
+                </div>
 
-<form name="regForm" action="/register" method="post" onsubmit="return validateForm();">
+                <!-- Email -->
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control" required />
+                </div>
 
-    Username: <input type="text" name="username" /><br/><br/>
+                <!-- Password -->
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" required />
+                </div>
 
-    Email: <input type="email" name="email" /><br/><br/>
+                <!-- Confirm Password -->
+                <div class="mb-3">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" name="confirmPassword" class="form-control" required />
+                </div>
 
-    Password: <input type="password" name="password" /><br/><br/>
+                <!-- Submit -->
+                <button type="submit" class="btn btn-primary w-100">Register</button>
 
-    Confirm Password: <input type="password" name="confirmPassword" /><br/><br/>
-
-    <button type="submit">Register</button>
-</form>
-
-<!-- Show backend validation -->
-<c:if test="${not empty error}">
-    <p style="color:red;">${error}</p>
-</c:if>
-
-<c:if test="${not empty success}">
-    <p style="color:green;">${success}</p>
-</c:if>
+            </form>
+        </div>
+    </div>
+</div>
